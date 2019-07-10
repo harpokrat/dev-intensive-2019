@@ -27,8 +27,35 @@ fun Date.add(value: Int, units: TimeUnits = TimeUnits.SECOND): Date {
 }
 
 fun Date.humanizeDiff(date:Date = Date()): String {
-    // TODO: write this
-    return ""
+    val diff = date.time - this.time
+
+    var result = ""
+
+    return  if (diff >= 0) {
+         when (diff) {
+            in 0..1*SECOND + 20 -> "только что"
+            in 1*SECOND..45*SECOND -> "несколько секунд назад"
+            in 45*SECOND..75*SECOND -> "минуту назад"
+            in 75*SECOND..45*MINUTE -> "${TimeUnits.MINUTE.plural((diff / MINUTE).toInt())} назад"
+            in 45*MINUTE..75*MINUTE -> "час назад"
+            in 75*MINUTE..22*HOUR -> "${TimeUnits.HOUR.plural((diff / HOUR).toInt())} назад"
+            in 22*HOUR..26*HOUR -> "день назад"
+            in 26*HOUR..360*DAY -> "${TimeUnits.DAY.plural((diff / DAY).toInt())} назад"
+            else -> "более года назад"
+        }
+    } else {
+        when (-diff) {
+            in 0..1 * SECOND + 20 -> "сейчас"
+            in 1 * SECOND..45 * SECOND -> "через несколько секунд"
+            in 45 * SECOND..75 * SECOND -> "через минуту"
+            in 75 * SECOND..45 * MINUTE -> "через ${TimeUnits.MINUTE.plural((-diff / MINUTE).toInt())}"
+            in 45 * MINUTE..75 * MINUTE -> "через час"
+            in 75 * MINUTE..22 * HOUR -> "через ${TimeUnits.HOUR.plural((-diff / HOUR).toInt())}"
+            in 22 * HOUR..26 * HOUR -> "через день"
+            in 26 * HOUR..360 * DAY -> "через ${TimeUnits.DAY.plural((-diff / DAY).toInt())}"
+            else -> "более чем через год"
+        }
+    }
 }
 
 enum class TimeUnits {
