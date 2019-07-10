@@ -35,5 +35,35 @@ enum class TimeUnits {
     SECOND,
     MINUTE,
     HOUR,
-    DAY
+    DAY;
+
+    fun plural(value: Int): String {
+        var suffix = ""
+        when (this) {
+            SECOND -> {
+                suffix = if (value in 5..20) "секунд"
+                else if (value % 10 == 1) "секунду"
+                else if (value % 10 == 2 || value % 10 == 3 || value % 10 == 4) "секунды"
+                else "секунд"
+            }
+            MINUTE ->
+                suffix = if (value in 5..20) "минут"
+                else if (value % 10 == 1) "минуту"
+                else if (value % 10 == 2 || value % 10 == 3 || value % 10 == 4) "минуты"
+                else "минут"
+            HOUR ->
+                suffix = if (value in 5..20) "часов"
+                else if (value % 10 == 1) "час"
+                else if (value % 10 == 2 || value % 10 == 3 || value % 10 == 4) "часа"
+                else "часов"
+            DAY ->
+                suffix = if (value in 5..20) "дней"
+                else if (value % 10 == 1) "день"
+                else if (value % 10 == 2 || value % 10 == 3 || value % 10 == 4) "дня"
+                else "дней"
+        }
+
+        return "$value $suffix"
+
+    }
 }
