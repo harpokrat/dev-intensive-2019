@@ -8,3 +8,13 @@ fun String.truncate(value: Int = 16) : String
     else
         string
 }
+
+
+fun String.stripHtml() : String
+{
+    var string = this.replace("<[^>]*>".toRegex(), "")
+    string = string.replace("[ ]+".toRegex(), " ")
+    string = string.replace("&\\w+;".toRegex(), "")
+
+    return string.trim()
+}
