@@ -1,5 +1,6 @@
 package ru.skillbranch.devintensive
 
+import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Bundle
@@ -11,6 +12,11 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.skillbranch.devintensive.models.Bender
+import android.view.KeyEvent
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
+import android.widget.TextView.OnEditorActionListener
+import ru.skillbranch.devintensive.extensions.hideKeyboard
 
 
 class MainActivity() : AppCompatActivity(), View.OnClickListener {
@@ -41,6 +47,20 @@ class MainActivity() : AppCompatActivity(), View.OnClickListener {
 
         textTxt.text = benderObj.askQuestion()
         sendBtn.setOnClickListener(this)
+        messageEt.setOnEditorActionListener(OnEditorActionListener { textView, i, keyEvent ->
+            if (i == EditorInfo.IME_ACTION_DONE) {
+                val (phrase, color) = benderObj.listenAnswer(messageEt.text.toString().toLowerCase())
+                messageEt.setText("")
+                val (r, g, b) = color
+                benderImage.setColorFilter(Color.rgb(r, g, b), PorterDuff.Mode.MULTIPLY)
+                textTxt.text = phrase
+                hideKeyboard()
+
+                return@OnEditorActionListener true
+            }
+            false
+        })
+
 
 
         Log.d("M_MainActivity", "onCreate  ${benderObj.status.name} ${benderObj.question.name}")
