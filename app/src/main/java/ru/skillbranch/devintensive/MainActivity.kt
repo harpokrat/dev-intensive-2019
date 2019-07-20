@@ -49,7 +49,7 @@ class MainActivity() : AppCompatActivity(), View.OnClickListener {
         sendBtn.setOnClickListener(this)
         messageEt.setOnEditorActionListener(OnEditorActionListener { textView, i, keyEvent ->
             if (i == EditorInfo.IME_ACTION_DONE) {
-                val (phrase, color) = benderObj.listenAnswer(messageEt.text.toString().toLowerCase())
+                val (phrase, color) = benderObj.listenAnswer(messageEt.text.toString())
                 messageEt.setText("")
                 val (r, g, b) = color
                 benderImage.setColorFilter(Color.rgb(r, g, b), PorterDuff.Mode.MULTIPLY)
@@ -60,8 +60,6 @@ class MainActivity() : AppCompatActivity(), View.OnClickListener {
             }
             false
         })
-
-
 
         Log.d("M_MainActivity", "onCreate  ${benderObj.status.name} ${benderObj.question.name}")
     }
@@ -106,12 +104,11 @@ class MainActivity() : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         if (v?.id == R.id.iv_send) {
-            val (phrase, color) = benderObj.listenAnswer(messageEt.text.toString().toLowerCase())
+            val (phrase, color) = benderObj.listenAnswer(messageEt.text.toString())
             messageEt.setText("")
             val (r, g, b) = color
             benderImage.setColorFilter(Color.rgb(r, g, b), PorterDuff.Mode.MULTIPLY)
             textTxt.text = phrase
         }
     }
-
 }
